@@ -10,7 +10,7 @@ describe('OnBoardItem Component', () => {
   const buttonTitleFirst = 'First Button';
   const buttonTitleSecond = 'Second button';
 
-  test('Onboarditem', () => {
+  test('Onboarditem first button', () => {
     const {getByTestId, getByText} = render(
       <OnboardItem
         imageSource={imageSource}
@@ -18,7 +18,21 @@ describe('OnBoardItem Component', () => {
         subtitle={subTitle}
         onPressFirst={mockOnPressFirst}
         buttonTitleFirst={buttonTitleFirst}
-        onPressSecond={mockOnPressSecond}
+      />,
+    );
+    const parentComp = getByTestId('background-image');
+    const titleTe = getByText(titleText);
+    expect(parentComp).toBeTruthy();
+    expect(titleTe).toBeTruthy();
+  });
+
+  test('Onboard second button', () => {
+    const {getByTestId, getByText} = render(
+      <OnboardItem
+        imageSource={imageSource}
+        title={titleText}
+        subtitle={subTitle}
+        onPressFirst={mockOnPressSecond}
         buttonTitleSecond={buttonTitleSecond}
       />,
     );
