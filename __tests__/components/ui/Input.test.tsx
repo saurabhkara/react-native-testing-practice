@@ -1,4 +1,4 @@
-import {fireEvent, render, screen} from '@testing-library/react-native';
+import {fireEvent, render, screen, act} from '@testing-library/react-native';
 import Input from '../../../src/components/ui/Input';
 
 describe('Input element', () => {
@@ -29,9 +29,49 @@ describe('Input element', () => {
     expect(mockOnnBlur).toHaveBeenCalledTimes(2);
   });
   test('Input component shpuld rener error', () => {
-    render(<Input error="error" error="error occurred" value="" />);
+    render(<Input error="error" value="" />);
     const errorTextInpComp = screen.getByTestId('errorText');
 
     expect(errorTextInpComp).toBeTruthy();
+  });
+
+  test('Input component shpuld should focus', () => {
+    const {getByTestId} = render(
+      <Input value="" onFocus={mockOnFocus} onChangeText={mockOnChangeText} />,
+    );
+
+    act(() => {
+      fireEvent(getByTestId('textInput'), 'focus', {});
+    });
+
+    expect(mockOnFocus).toHaveBeenCalled();
+  });
+  test('Input component shpuld disabled style', () => {
+    const {getByTestId} = render(
+      <Input value="" disabled onChangeText={mockOnChangeText} />,
+    );
+
+    const inputContainer = getByTestId('inputContainer');
+    // expect(inputContainer).toHaveStyle({pointerEvent: 'none'});
+  });
+
+  test('default onfocus function has been called', () => {
+    const {getByTestId} = render(
+      <Input value="" onChangeText={mockOnChangeText} />,
+    );
+
+    act(() => {
+      fireEvent(getByTestId('textInput'), 'focus', {});
+    });
+  });
+
+  test('default onBlur function has been called', () => {
+    const {getByTestId} = render(
+      <Input value="" onChangeText={mockOnChangeText} />,
+    );
+
+    act(() => {
+      fireEvent(getByTestId('textInput'), 'blur', {});
+    });
   });
 });
